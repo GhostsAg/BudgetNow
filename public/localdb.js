@@ -8,11 +8,11 @@ request.onupgradeneeded = function(event) {
 };
 
 request.onsuccess = function(event) {
-  db = event.target.result;
+    db = event.target.result;
 
-  if (navigator.onLine) {
-    checkDatabase();
-  }
+    if (navigator.onLine) {
+        checkDatabase();
+    }
 };
 
 function checkDatabase() {
@@ -25,24 +25,24 @@ function checkDatabase() {
     
     getAll.onsuccess = function() {
         if (getAll.result.length > 0) {
-        fetch("/api/transaction/bulk", {
-            method: "POST",
-            body: JSON.stringify(getAll.result),
-            headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(() => {
-            // if successful, open a transaction on your pending db
-            // transaction.open(true)
-            const transaction = db.transaction(["pending"], "readwrite");
-            const store = transaction.objectStore("pending");
-            store.clear();
-            // access your pending object store
-            // clear all items in your store
-        });
+            fetch("/api/transaction/bulk", {
+                method: "POST",
+                body: JSON.stringify(getAll.result),
+                headers: {
+                Accept: "application/json, text/plain, */*",
+                "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(() => {
+                // if successful, open a transaction on your pending db
+                // transaction.open(true)
+                const transaction = db.transaction(["pending"], "readwrite");
+                const store = transaction.objectStore("pending");
+                store.clear();
+                // access your pending object store
+                // clear all items in your store
+            });
         }
     };
 }

@@ -1,15 +1,15 @@
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
+    '/index.js',
+    '/localdb.js',
     '/manifest.webmanifest',
     '/style.css',
     '/icons/icon-192x169.png',
     '/icons/icon-512x452.png',
-];
-  
+];  
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
-
 // install
 self.addEventListener('install', function(evt) {
     evt.waitUntil(
@@ -20,7 +20,6 @@ self.addEventListener('install', function(evt) {
     );
     self.skipWaiting();
 });
-
 // activate
 self.addEventListener("activate", function(evt) {
     evt.waitUntil(
@@ -37,7 +36,6 @@ self.addEventListener("activate", function(evt) {
     );
     self.clients.claim();
 });
-
 // fetch
 self.addEventListener("fetch", function(evt) {
     if (evt.request.url.includes("/")) {
