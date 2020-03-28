@@ -1,5 +1,3 @@
-
-
 const FILES_TO_CACHE = [
     '/',
     '/index.html',
@@ -43,21 +41,20 @@ self.addEventListener("activate", function(evt) {
 // fetch
 self.addEventListener("fetch", function(evt) {
     if (evt.request.url.includes("/")) {
-      evt.respondWith(
+        evt.respondWith(
         caches.open(DATA_CACHE_NAME).then(cache => {
-          return fetch(evt.request)
+            return fetch(evt.request)
             .then(response => {
-              if (response.status === 200) {
-                cache.put(evt.request.url, response.clone());
-              }
-  
-              return response;
+                if (response.status === 200) {
+                    cache.put(evt.request.url, response.clone());
+                }
+                return response;
             })
             .catch(err => {
-              return cache.match(evt.request);
+                return cache.match(evt.request);
             });
-        }).catch(err => console.log(err))
-      );
-  
-      return;
-  }});
+        })
+        .catch(err => console.log(err))
+    )}; 
+    return;
+});
